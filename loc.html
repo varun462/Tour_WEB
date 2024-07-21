@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Weather Website</title>
+        <link rel="stylesheet" href="style3.css">
+    </head>
+    <body>
+        <div class="card">
+            <div class="search">
+                <input type="text" placeholder="enter city name"
+                spellcheck="false" id="location">
+                <button onclick="getWeather()">get</button>
+            </div>
+            <div class="weather">
+                <img src="./rain.png" class="weather-icon">
+                <h1 class="temp" id="temp"></h1>
+                <h2 class="city" id="weather"></h2>
+            
+            <div class="details">
+                <div class="col">
+                    <img src="./humidity.png">
+                    <div>
+                        <p class="cityName" id="lat"></p>
+                        <p>Latitude</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="./wind.png">
+                    <div>
+                        <p class="wind" id="wind"></p>
+                        <p>wind Speed</p>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="place">
+                <!-- <input type="text" placeholder="enter your place"
+               id="placename" spellcheck="false"> -->
+               <!--<label for="placename">Choose a place to visit:</label> -->
+               
+                 <select name="cars" id="placename">
+                <option value="Shetty">Shettihalli Church</option>
+                <option value="shravana">Shravana Belagula</option>
+                <option value="gorur">Gorur Dam</option>
+</select>
+                <button type="button" id="button1">find</button>
+            </div>
+        </div>
+        
+    </div>
+        
+       
+<script>
+    const  weather_icon=document.querySelector(".weather-icon")
+    function getWeather() {
+     var location = document.getElementById("location").value;
+      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=12.95000000&lon=76.08333000&appid=a62e303b09994982cf29170e8e3f66e9`)
+       .then(response => response.json())
+        .then(data => {
+           var temp =Math.round(data.main.temp - 273.15);
+           var weather =  data.weather[0].description;
+            var windspeed=data.wind.speed;
+            var lat=data.coord.lat;
+          //  document.write(lat);
+          document.getElementById("temp").innerHTML = "Temperature: " + temp + "°C";
+          document.getElementById("weather").innerHTML = "Weather: " + weather;
+          document.getElementById("wind").innerHTML= + windspeed;
+          document.getElementById("lat").innerHTML= + lat;
+       
+        if(data.data[0].weather.description=="Scattered clouds"){
+            weather_icon.src="./clouds.png";
+          }
+        else  if(data.data[0].weather.description=="Clear sky"){
+            weather_icon.src="./clear.png";
+          }
+          else if(data.data[0].weather.description=="Haze"){
+            weather_icon.src="./drizzle.png";
+          }
+          else if(data.data[0].weather.description=="Fog"){
+            weather_icon.src="./mist.png";
+          }
+        else if(data.data[0].weather.description=="Rain"){
+            weather_icon.src="./rain.png";
+          }
+        //document.querySelector(".weather").style.display="block";
+        
+    });
+    document.querySelector(".weather").style.display="block";
+    }
+   
+    document.getElementById('button1').addEventListener('click', function() {
+                         // Redirect to another page when the button is clicked
+    //var stored=document.getElementById("placename").value; 
+        var input=document.getElementById('placename').value; 
+                         if(input=='Shetty'){
+                           
+                           window.location.href = 'shettyhalli_church.html';
+                         }
+                         else if(input=='shravana'){
+            
+                           window.location.href = 'shravana.html';
+                         }                          
+                         else if(input=='gorur'){
+                         
+                          window.location.href = 'goruor.html';
+                        }
+                     });
+                                 
+        </script>
+</body>
+</html>
